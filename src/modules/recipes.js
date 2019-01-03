@@ -1,6 +1,12 @@
 import recipes from "../assets/recipes";
 
-export function generateList(numberOfRecipes = 1) {
+export function generateRandomList(numberOfRecipes = 1) {
+  if (numberOfRecipes === "") {
+    numberOfRecipes = 1;
+  } else {
+    numberOfRecipes = Number(numberOfRecipes);
+  }
+
   let list = {
     recipes: [],
     ingredients: {}

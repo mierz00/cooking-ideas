@@ -1,0 +1,4 @@
+.bottomBorder {
+  border-bottom: 1pt solid hsl(0, 0%, 90%);
+  padding: 5px 0 5px 0;
+}
