@@ -1,20 +1,36 @@
 import React, { Component } from "react";
 import "./App.css";
 import * as Recipes from "./modules/recipes";
+import recipesData from "./assets/recipes";
 import { Input, Button } from "semantic-ui-react";
 import { IngredientsList } from "./components/IngredientsList";
+import AddItem from "./components/AddItem";
 
 class App extends Component {
   state = {
     numberOfRecipes: "",
-    ingredientsList: null
+    ingredientsList: {
+      recipes: [],
+      ingredients: {}
+    }
   };
 
   onSubmitRandomSelection = () => {
     const ingredientsList = Recipes.generateRandomList(
       this.state.numberOfRecipes
     );
-    console.log(ingredientsList);
+    this.setState({ ingredientsList });
+  };
+
+  onSubmitAddItem = recipeName => {
+    const recipeWithIngredients = recipesData.find(
+      recipe => recipe.name === recipeName
+    );
+
+    const ingredientsList = Recipes.addRecipeToList(
+      this.state.ingredientsList,
+      recipeWithIngredients
+    );
     this.setState({ ingredientsList });
   };
 
@@ -32,16 +48,18 @@ class App extends Component {
             value={this.state.numberOfRecipes}
             placeholder="Enter number of recipes..."
             onChange={event => {
-              console.log(event.target.value);
               this.setState({ numberOfRecipes: event.target.value });
             }}
           />
           <br />
           <Button fluid color="blue" onClick={this.onSubmitRandomSelection}>
-            Submit
+            Generate random list
           </Button>
           <br />
-          {this.state.ingredientsList && (
+
+          <AddItem recipes={recipesData} onSubmit={this.onSubmitAddItem} />
+          <br />
+          {this.state.ingredientsList.recipes.length > 0 && (
             <IngredientsList list={this.state.ingredientsList} />
           )}
         </div>

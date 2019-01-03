@@ -47,15 +47,6 @@ export default [
     ]
   },
   {
-    name: "Spaghetti with Garlic and Chilli",
-    ingredients: [
-      { type: "Pasta", name: "Spaghetti", amount: 1 },
-      { type: "Vegetables", name: "Chilli", amount: 1 },
-      { type: "Vegetables", name: "Garlic", amount: 4 },
-      { type: "Refrigerated", name: "(Optional) Parmigiano", amount: 1 }
-    ]
-  },
-  {
     name: "Lebanese Meze",
     ingredients: [
       { type: "Flour", name: "Flour", amount: 1 },

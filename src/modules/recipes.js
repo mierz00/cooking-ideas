@@ -28,13 +28,13 @@ export function generateRandomList(numberOfRecipes = 1) {
 
     //   console.log(recipes[recipeIndex])
 
-    addRecipeToList(list, recipes[recipeIndex]);
+    list = addRecipeToList(list, recipes[recipeIndex]);
   }
 
   return list;
 }
 
-function addRecipeToList(list, recipe) {
+export function addRecipeToList(list, recipe) {
   // Add name
   list.recipes.push(recipe.name);
 
@@ -58,6 +58,8 @@ function addRecipeToList(list, recipe) {
       list.ingredients[type][name] = amount;
     }
   }
+
+  return list;
 }
 
 function checkNested(obj /*, level1, level2, ... levelN*/) {
