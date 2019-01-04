@@ -35,6 +35,9 @@ export function generateRandomList(numberOfRecipes = 1) {
 }
 
 export function addRecipeToList(list, recipe) {
+  // Stop if recipe has already been added to the list.
+  if (list.recipes.indexOf(recipe.name) !== -1) return list;
+
   // Add name
   list.recipes.push(recipe.name);
 
@@ -62,6 +65,38 @@ export function addRecipeToList(list, recipe) {
   return list;
 }
 
+export function deleteRecipeFromList(list, recipeToDelete) {
+  const recipeToDeleteIndex = list.recipes.indexOf(recipeToDelete);
+
+  // Stop if recipe doesn't exist.
+  if (recipeToDeleteIndex === -1) return list;
+
+  // Remove recipe name from array.
+  list.recipes.splice(recipeToDeleteIndex, 1);
+
+  // Get original recipe and ingredients object to use in deletion.
+  const recipeToDeleteObj = recipes.find(
+    recipe => recipe.name === recipeToDelete
+  );
+
+  // Remove ingredients to list.
+  for (let i = 0; i < recipeToDeleteObj.ingredients.length; i++) {
+    const { type, name, amount } = recipeToDeleteObj.ingredients[i];
+
+    if (list.ingredients[type][name] > amount) {
+      // There is another recipe which needs the same ingredient.
+      list.ingredients[type][name] -= amount;
+    } else {
+      // Delete the ingredient.
+      delete list.ingredients[type][name];
+    }
+  }
+
+  clearEmpties(list.ingredients);
+
+  return list;
+}
+
 function checkNested(obj /*, level1, level2, ... levelN*/) {
   var args = Array.prototype.slice.call(arguments, 1);
 
@@ -72,4 +107,18 @@ function checkNested(obj /*, level1, level2, ... levelN*/) {
     obj = obj[args[i]];
   }
   return true;
+}
+
+function clearEmpties(o) {
+  for (var k in o) {
+    if (!o[k] || typeof o[k] !== "object") {
+      continue; // If null or not an object, skip to the next iteration
+    }
+
+    // The property is an object
+    clearEmpties(o[k]); // <-- Make a recursive call on the nested object
+    if (Object.keys(o[k]).length === 0) {
+      delete o[k]; // The object had no properties, so delete that property
+    }
+  }
 }

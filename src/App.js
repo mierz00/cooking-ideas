@@ -5,6 +5,7 @@ import recipesData from "./assets/recipes";
 import { Input, Button } from "semantic-ui-react";
 import { IngredientsList } from "./components/IngredientsList";
 import AddItem from "./components/AddItem";
+import DeleteItem from "./components/DeleteItem";
 
 class App extends Component {
   state = {
@@ -34,6 +35,14 @@ class App extends Component {
     this.setState({ ingredientsList });
   };
 
+  onSubmitDeleteRecipe = recipeName => {
+    const ingredientsList = Recipes.deleteRecipeFromList(
+      this.state.ingredientsList,
+      recipeName
+    );
+    this.setState({ ingredientsList });
+  };
+
   render() {
     return (
       <div className="App">
@@ -56,11 +65,17 @@ class App extends Component {
             Generate random list
           </Button>
           <br />
-
           <AddItem recipes={recipesData} onSubmit={this.onSubmitAddItem} />
           <br />
+
           {this.state.ingredientsList.recipes.length > 0 && (
-            <IngredientsList list={this.state.ingredientsList} />
+            <div>
+              <IngredientsList list={this.state.ingredientsList} /> <br />
+              <DeleteItem
+                recipes={this.state.ingredientsList.recipes}
+                onSubmit={this.onSubmitDeleteRecipe}
+              />
+            </div>
           )}
         </div>
       </div>
