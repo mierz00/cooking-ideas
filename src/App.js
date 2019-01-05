@@ -6,6 +6,7 @@ import { Input, Button } from "semantic-ui-react";
 import { IngredientsList } from "./components/IngredientsList";
 import AddItem from "./components/AddItem";
 import DeleteItem from "./components/DeleteItem";
+import AddIngredient from "./components/AddIngredient";
 
 class App extends Component {
   state = {
@@ -35,6 +36,16 @@ class App extends Component {
     this.setState({ ingredientsList });
   };
 
+  onSubmitAddIngredient = ingredient => {
+    const ingredientsList = Recipes.addIngredientTolist(
+      this.state.ingredientsList,
+      ingredient
+    );
+
+    console.log("lsit", ingredientsList);
+    this.setState({ ingredientsList });
+  };
+
   onSubmitDeleteRecipe = recipeName => {
     const ingredientsList = Recipes.deleteRecipeFromList(
       this.state.ingredientsList,
@@ -44,6 +55,7 @@ class App extends Component {
   };
 
   render() {
+    const { ingredientsList } = this.state;
     return (
       <div className="App">
         <div className="Container">
@@ -68,11 +80,13 @@ class App extends Component {
           <AddItem recipes={recipesData} onSubmit={this.onSubmitAddItem} />
           <br />
 
-          {this.state.ingredientsList.recipes.length > 0 && (
+          {ingredientsList.recipes.length > 0 && (
             <div>
-              <IngredientsList list={this.state.ingredientsList} /> <br />
+              <AddIngredient onSubmit={this.onSubmitAddIngredient} />
+              <br />
+              <IngredientsList list={ingredientsList} /> <br />
               <DeleteItem
-                recipes={this.state.ingredientsList.recipes}
+                recipes={ingredientsList.recipes}
                 onSubmit={this.onSubmitDeleteRecipe}
               />
             </div>

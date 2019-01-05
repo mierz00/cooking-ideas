@@ -26,8 +26,6 @@ export function generateRandomList(numberOfRecipes = 1) {
 
     alreadyAddedRecipes.push(recipeIndex);
 
-    //   console.log(recipes[recipeIndex])
-
     list = addRecipeToList(list, recipes[recipeIndex]);
   }
 
@@ -43,23 +41,7 @@ export function addRecipeToList(list, recipe) {
 
   // Add ingredients to list.
   for (let i = 0; i < recipe.ingredients.length; i++) {
-    const { type, name, amount } = recipe.ingredients[i];
-
-    // Checks if type exists in list
-    if (checkNested(list.ingredients, type)) {
-      // Checks if ingredient name exists in list
-      if (checkNested(list.ingredients, type, name)) {
-        list.ingredients[type][`${name}`] += amount;
-      }
-      // Add ingredient name and amount to list.
-      else {
-        list.ingredients[type][`${name}`] = amount;
-      }
-    } else {
-      // Type and name not already stored in list. Create both.
-      list.ingredients[type] = {};
-      list.ingredients[type][name] = amount;
-    }
+    list = addIngredientTolist(list, recipe.ingredients[i]);
   }
 
   return list;
@@ -93,6 +75,28 @@ export function deleteRecipeFromList(list, recipeToDelete) {
   }
 
   clearEmpties(list.ingredients);
+
+  return list;
+}
+
+export function addIngredientTolist(list, ingredient) {
+  const { type, name, amount } = ingredient;
+
+  // Checks if type exists in list
+  if (checkNested(list.ingredients, type)) {
+    // Checks if ingredient name exists in list
+    if (checkNested(list.ingredients, type, name)) {
+      list.ingredients[type][`${name}`] += amount;
+    }
+    // Add ingredient name and amount to list.
+    else {
+      list.ingredients[type][`${name}`] = amount;
+    }
+  } else {
+    // Type and name not already stored in list. Create both.
+    list.ingredients[type] = {};
+    list.ingredients[type][name] = amount;
+  }
 
   return list;
 }
