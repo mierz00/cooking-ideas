@@ -15,12 +15,12 @@ export const IngredientsList = ({ list }) => {
         </ul>
         <h3>Ingredients by Category</h3>
         {Object.keys(list.ingredients).map((type, index) => (
-          <div>
+          <div key={type}>
             <h4 style={{ margin: 0 }}>{type}</h4>
             <table cellSpacing="0" style={{ width: "100%" }}>
               <tbody>
                 {Object.keys(list.ingredients[type]).map((item, index) => (
-                  <tr>
+                  <tr key={item}>
                     <td className="bottomBorder">{item}</td>
                     <td
                       className="bottomBorder"
