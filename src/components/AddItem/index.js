@@ -3,32 +3,32 @@ import { Dropdown, Button } from "semantic-ui-react";
 
 class AddItem extends Component {
   state = {
-    recipe: ""
+    dish: ""
   };
 
-  handleChange = (e, { value }) => this.setState({ recipe: value });
+  handleChange = (e, { value }) => this.setState({ dish: value });
 
   handleSubmit = () => {
-    this.props.onSubmit(this.state.recipe);
+    this.props.onSubmit(this.state.dish);
   };
 
   render() {
     let organisedData = [];
-    const { recipes, onSubmit } = this.props;
-    for (let i in recipes) {
+    const { dishes } = this.props;
+    for (let i in dishes) {
       organisedData.push({
-        key: recipes[i].name,
-        value: recipes[i].name,
-        text: recipes[i].name
+        key: dishes[i].name,
+        value: dishes[i].name,
+        text: dishes[i].name
       });
     }
 
     return (
       <div>
-        <h2>Add recipes to list</h2>
-        <p>Select recipes to add to the ingredients list</p>
+        <h2>Add dishes to list</h2>
+        <p>Select dish to add to the ingredients list</p>
         <Dropdown
-          placeholder="Select recipe"
+          placeholder="Select dish"
           fluid
           search
           selection
@@ -37,7 +37,7 @@ class AddItem extends Component {
         />
         <br />
         <Button fluid color="teal" onClick={this.handleSubmit}>
-          Add recipe to list
+          Add dish to list
         </Button>
       </div>
     );

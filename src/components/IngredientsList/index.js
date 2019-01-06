@@ -7,10 +7,10 @@ export const IngredientsList = ({ list }) => {
     <div>
       <h2>Ingredients List</h2>
       <Segment>
-        <h3>Recipes</h3>
+        <h3>Dishes</h3>
         <ul>
-          {list.recipes.map(recipe => (
-            <li key={recipe}>{recipe}</li>
+          {list.dishes.map(dish => (
+            <li key={dish}>{dish}</li>
           ))}
         </ul>
         <h3>Ingredients by Category</h3>

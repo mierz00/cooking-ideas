@@ -3,32 +3,32 @@ import { Dropdown, Button } from "semantic-ui-react";
 
 class DeleteItem extends Component {
   state = {
-    recipe: ""
+    dish: ""
   };
 
-  handleChange = (e, { value }) => this.setState({ recipe: value });
+  handleChange = (e, { value }) => this.setState({ dish: value });
 
   handleSubmit = () => {
-    this.props.onSubmit(this.state.recipe);
+    this.props.onSubmit(this.state.dish);
   };
 
   render() {
     let organisedData = [];
-    const { recipes } = this.props;
-    for (let i in recipes) {
+    const { dishes } = this.props;
+    for (let i in dishes) {
       organisedData.push({
-        key: recipes[i],
-        value: recipes[i],
-        text: recipes[i]
+        key: dishes[i],
+        value: dishes[i],
+        text: dishes[i]
       });
     }
 
     return (
       <div>
-        <h2>Delete recipe from list</h2>
-        <p>Select recipe to remove from the ingredients list</p>
+        <h2>Delete dish from list</h2>
+        <p>Select dish to remove from the ingredients list</p>
         <Dropdown
-          placeholder="Select recipe"
+          placeholder="Select dish"
           fluid
           search
           selection
@@ -37,7 +37,7 @@ class DeleteItem extends Component {
         />
         <br />
         <Button fluid color="orange" onClick={this.handleSubmit}>
-          Remove recipe from list
+          Remove dish from list
         </Button>
       </div>
     );

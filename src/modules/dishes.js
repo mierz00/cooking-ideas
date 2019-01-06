@@ -1,72 +1,70 @@
-import recipes from "../assets/recipes";
+import dishes from "../assets/dishes";
 
-export function generateRandomList(numberOfRecipes = 1) {
-  if (numberOfRecipes === "") {
-    numberOfRecipes = 1;
+export function generateRandomList(numberOfdishes = 1) {
+  if (numberOfdishes === "") {
+    numberOfdishes = 1;
   } else {
-    numberOfRecipes = Number(numberOfRecipes);
+    numberOfdishes = Number(numberOfdishes);
   }
 
   let list = {
-    recipes: [],
+    dishes: [],
     ingredients: {}
   };
 
-  let alreadyAddedRecipes = [];
+  let alreadyAddeddishes = [];
 
-  for (let i = 0; i < numberOfRecipes; i++) {
-    let recipeIndex;
+  for (let i = 0; i < numberOfdishes; i++) {
+    let dishIndex;
 
     do {
-      // Get a random recipe in list.
-      recipeIndex = Math.floor(Math.random() * recipes.length);
+      // Get a random dish in list.
+      dishIndex = Math.floor(Math.random() * dishes.length);
 
-      // Make sure that the recipe isn't already added to the list.
-    } while (alreadyAddedRecipes.indexOf(recipeIndex) !== -1);
+      // Make sure that the dish isn't already added to the list.
+    } while (alreadyAddeddishes.indexOf(dishIndex) !== -1);
 
-    alreadyAddedRecipes.push(recipeIndex);
+    alreadyAddeddishes.push(dishIndex);
 
-    list = addRecipeToList(list, recipes[recipeIndex]);
+    list = addDishToList(list, dishes[dishIndex]);
   }
 
   return list;
 }
 
-export function addRecipeToList(list, recipe) {
-  // Stop if recipe has already been added to the list.
-  if (list.recipes.indexOf(recipe.name) !== -1) return list;
+export function addDishToList(list, dish) {
+  // Stop if dish has already been added to the list.
+  if (list.dishes.indexOf(dish.name) !== -1) return list;
 
   // Add name
-  list.recipes.push(recipe.name);
+  list.dishes.push(dish.name);
 
   // Add ingredients to list.
-  for (let i = 0; i < recipe.ingredients.length; i++) {
-    list = addIngredientTolist(list, recipe.ingredients[i]);
+  for (let i = 0; i < dish.ingredients.length; i++) {
+    list = addIngredientTolist(list, dish.ingredients[i]);
   }
 
   return list;
 }
 
-export function deleteRecipeFromList(list, recipeToDelete) {
-  const recipeToDeleteIndex = list.recipes.indexOf(recipeToDelete);
+export function deleteDishFromList(list, dishToDelete) {
+  const dishToDeleteIndex = list.dishes.indexOf(dishToDelete);
 
-  // Stop if recipe doesn't exist.
-  if (recipeToDeleteIndex === -1) return list;
+  // Stop if dish doesn't exist.
+  if (dishToDeleteIndex === -1) return list;
 
-  // Remove recipe name from array.
-  list.recipes.splice(recipeToDeleteIndex, 1);
+  // Remove dish name from array.
+  list.dishes.splice(dishToDeleteIndex, 1);
 
-  // Get original recipe and ingredients object to use in deletion.
-  const recipeToDeleteObj = recipes.find(
-    recipe => recipe.name === recipeToDelete
-  );
+  // Get original dish and ingredients object to use in deletion.
+  const dishToDeleteObj = dishes.find(dish => dish.name === dishToDelete);
 
   // Remove ingredients to list.
-  for (let i = 0; i < recipeToDeleteObj.ingredients.length; i++) {
-    const { type, name, amount } = recipeToDeleteObj.ingredients[i];
+  for (let i = 0; i < dishToDeleteObj.ingredients.length; i++) {
+    const { type, name, amount } = dishToDeleteObj.ingredients[i];
 
     if (list.ingredients[type][name] > amount) {
-      // There is another recipe which needs the same ingredient.
+      // There is another dish which needs the same ingredient.
       list.ingredients[type][name] -= amount;
     } else {
       // Delete the ingredient.

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import * as Recipes from "./modules/recipes";
-import recipesData from "./assets/recipes";
+import * as dishes from "./modules/dishes";
+import dishesData from "./assets/dishes";
 import { Input, Button } from "semantic-ui-react";
 import { IngredientsList } from "./components/IngredientsList";
 import AddItem from "./components/AddItem";
@@ -10,34 +10,32 @@ import AddIngredient from "./components/AddIngredient";
 
 class App extends Component {
   state = {
-    numberOfRecipes: "",
+    numberOfDishes: "",
     ingredientsList: {
-      recipes: [],
+      dishes: [],
       ingredients: {}
     }
   };
 
   onSubmitRandomSelection = () => {
-    const ingredientsList = Recipes.generateRandomList(
-      this.state.numberOfRecipes
+    const ingredientsList = dishes.generateRandomList(
+      this.state.numberOfDishes
     );
     this.setState({ ingredientsList });
   };
 
-  onSubmitAddItem = recipeName => {
-    const recipeWithIngredients = recipesData.find(
-      recipe => recipe.name === recipeName
-    );
+  onSubmitAddItem = dishName => {
+    const dishWithIngredients = dishesData.find(dish => dish.name === dishName);
 
-    const ingredientsList = Recipes.addRecipeToList(
+    const ingredientsList = dishes.addDishToList(
       this.state.ingredientsList,
-      recipeWithIngredients
+      dishWithIngredients
     );
     this.setState({ ingredientsList });
   };
 
   onSubmitAddIngredient = ingredient => {
-    const ingredientsList = Recipes.addIngredientTolist(
+    const ingredientsList = dishes.addIngredientTolist(
       this.state.ingredientsList,
       ingredient
     );
@@ -46,10 +44,10 @@ class App extends Component {
     this.setState({ ingredientsList });
   };
 
-  onSubmitDeleteRecipe = recipeName => {
-    const ingredientsList = Recipes.deleteRecipeFromList(
+  onSubmitDeleteDish = dishName => {
+    const ingredientsList = dishes.deleteDishFromList(
       this.state.ingredientsList,
-      recipeName
+      dishName
     );
     this.setState({ ingredientsList });
   };
@@ -59,17 +57,17 @@ class App extends Component {
     return (
       <div className="App">
         <div className="Container">
-          <h2>Recipes</h2>
-          <p>Generate ingredients list from a random selection of recipes.</p>
+          <h2>Dishes</h2>
+          <p>Generate ingredients list from a random selection of dishes.</p>
           <Input
             fluid
             focus
             type="number"
             step="1"
-            value={this.state.numberOfRecipes}
-            placeholder="Enter number of recipes..."
+            value={this.state.numberOfDishes}
+            placeholder="Enter number of dishes..."
             onChange={event => {
-              this.setState({ numberOfRecipes: event.target.value });
+              this.setState({ numberOfDishes: event.target.value });
             }}
           />
           <br />
@@ -77,17 +75,17 @@ class App extends Component {
             Generate random list
           </Button>
           <br />
-          <AddItem recipes={recipesData} onSubmit={this.onSubmitAddItem} />
+          <AddItem dishes={dishesData} onSubmit={this.onSubmitAddItem} />
           <br />
 
-          {ingredientsList.recipes.length > 0 && (
+          {ingredientsList.dishes.length > 0 && (
             <div>
               <AddIngredient onSubmit={this.onSubmitAddIngredient} />
               <br />
               <IngredientsList list={ingredientsList} /> <br />
               <DeleteItem
-                recipes={ingredientsList.recipes}
-                onSubmit={this.onSubmitDeleteRecipe}
+                dishes={ingredientsList.dishes}
+                onSubmit={this.onSubmitDeleteDish}
               />
             </div>
           )}
